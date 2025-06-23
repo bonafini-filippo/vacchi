@@ -10,8 +10,10 @@ import {
   GitBranch,
   Palette,
 } from 'lucide-react';
+import { useT } from '@/contexts/LanguageContext';
 
 export function AboutSection() {
+  const t = useT();
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
@@ -69,7 +71,7 @@ export function AboutSection() {
   ];
 
   return (
-    <section className="py-20 px-6 bg-slate-800/50" ref={ref}>
+    <section className="py-20 px-6 bg-gray-900/50" ref={ref}>
       <div className="container mx-auto max-w-6xl">
         <motion.div
           className="text-center mb-16"
@@ -78,85 +80,187 @@ export function AboutSection() {
           transition={{ duration: 0.6 }}
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-6 gradient-text">
-            About Me
+            {t('about.title')}
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto"></div>
+          <div className="w-24 h-1 bg-gradient-to-r from-emerald-500 to-cyan-500 mx-auto"></div>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Bio Section */}
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            <div className="relative">
+        <div className="relative">
+          {/* Sfondo con effetto glow */}
+          <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 via-transparent to-cyan-500/10 rounded-3xl blur-3xl"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-transparent to-emerald-500/5 rounded-3xl blur-2xl"></div>
+
+          <div className="relative glass rounded-3xl p-8 lg:p-12 backdrop-blur-xl border border-white/10">
+            <div className="grid lg:grid-cols-5 gap-12 items-center">
+              {/* Immagine a sinistra - 2 colonne */}
               <motion.div
-                className="w-80 h-80 mx-auto lg:mx-0 rounded-2xl overflow-hidden shadow-2xl"
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.3 }}
+                className="lg:col-span-2"
+                initial={{ opacity: 0, x: -100, scale: 0.8 }}
+                animate={inView ? { opacity: 1, x: 0, scale: 1 } : {}}
+                transition={{ duration: 0.8, ease: 'easeOut' }}
               >
-                <img
-                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face"
-                  alt="Marco Vacchi"
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-purple-900/20 to-transparent"></div>
+                <div className="relative group">
+                  {/* Cerchi animati di sfondo */}
+                  <motion.div
+                    className="absolute -inset-8 bg-gradient-to-r from-emerald-500/20 to-cyan-500/20 rounded-full blur-2xl"
+                    animate={{
+                      scale: [1, 1.1, 1],
+                      rotate: [0, 180, 360],
+                    }}
+                    transition={{
+                      duration: 8,
+                      repeat: Infinity,
+                      ease: 'linear',
+                    }}
+                  />
+                  <motion.div
+                    className="absolute -inset-6 bg-gradient-to-l from-cyan-500/15 to-emerald-500/15 rounded-full blur-xl"
+                    animate={{
+                      scale: [1.1, 1, 1.1],
+                      rotate: [360, 180, 0],
+                    }}
+                    transition={{
+                      duration: 6,
+                      repeat: Infinity,
+                      ease: 'linear',
+                    }}
+                  />
+
+                  {/* Immagine principale */}
+                  <motion.div
+                    className="relative w-80 h-80 mx-auto rounded-3xl overflow-hidden shadow-2xl shadow-emerald-500/20 ring-1 ring-white/10"
+                    whileHover={{
+                      scale: 1.05,
+                      rotateY: 5,
+                      rotateX: 5,
+                    }}
+                    transition={{ duration: 0.4, ease: 'easeOut' }}
+                    style={{ transformStyle: 'preserve-3d' }}
+                  >
+                    <img
+                      src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&h=500&fit=crop&crop=face"
+                      alt="Marco Vacchi"
+                      className="w-full h-full object-cover filter brightness-110 contrast-105 group-hover:brightness-115 transition-all duration-500"
+                    />
+
+                    {/* Overlay con gradiente */}
+                    <div className="absolute inset-0 bg-gradient-to-tr from-emerald-900/20 via-transparent to-cyan-900/20 opacity-60 group-hover:opacity-40 transition-opacity duration-500"></div>
+
+                    {/* Particelle fluttuanti randomiche */}
+                    {[
+                      { left: 15, top: 20, size: 'w-1 h-1', delay: 0 },
+                      { left: 85, top: 15, size: 'w-0.5 h-0.5', delay: 0.8 },
+                      { left: 25, top: 75, size: 'w-1.5 h-1.5', delay: 1.5 },
+                      { left: 70, top: 85, size: 'w-1 h-1', delay: 2.2 },
+                      { left: 45, top: 35, size: 'w-0.5 h-0.5', delay: 0.4 },
+                      { left: 90, top: 55, size: 'w-1 h-1', delay: 1.8 },
+                      { left: 10, top: 60, size: 'w-1.5 h-1.5', delay: 1.1 },
+                      { left: 60, top: 10, size: 'w-0.5 h-0.5', delay: 2.5 },
+                      { left: 35, top: 90, size: 'w-1 h-1', delay: 0.7 },
+                      { left: 80, top: 40, size: 'w-1.5 h-1.5', delay: 1.9 },
+                    ].map((particle, i) => (
+                      <motion.div
+                        key={i}
+                        className={`absolute ${particle.size} bg-emerald-400 rounded-full opacity-50`}
+                        style={{
+                          left: `${particle.left}%`,
+                          top: `${particle.top}%`,
+                        }}
+                        animate={{
+                          y: [0, -15 - Math.random() * 20, 0],
+                          x: [0, Math.random() * 10 - 5, 0],
+                          opacity: [0.3, 0.8, 0.3],
+                          scale: [0.8, 1.4, 0.8],
+                        }}
+                        transition={{
+                          duration: 2.5 + Math.random() * 2,
+                          repeat: Infinity,
+                          delay: particle.delay,
+                          ease: 'easeInOut',
+                        }}
+                      />
+                    ))}
+                  </motion.div>
+
+                  {/* Badge floating */}
+                  <motion.div
+                    className="absolute -bottom-4 -right-4 bg-gradient-to-r from-emerald-500 to-cyan-500 text-white px-4 py-2 rounded-2xl text-sm font-bold shadow-lg"
+                    initial={{ opacity: 0, scale: 0 }}
+                    animate={inView ? { opacity: 1, scale: 1 } : {}}
+                    transition={{ duration: 0.6, delay: 1.2 }}
+                    whileHover={{ scale: 1.1, rotate: 5 }}
+                  >
+                    ✨ Full-Stack Dev
+                  </motion.div>
+                </div>
+              </motion.div>
+
+              {/* Contenuto a destra - 3 colonne */}
+              <motion.div
+                className="lg:col-span-3 space-y-8"
+                initial={{ opacity: 0, x: 100 }}
+                animate={inView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.8, delay: 0.4 }}
+              >
+                {/* Titolo con effetto typing */}
+                <motion.div>
+                  <motion.h3
+                    className="text-3xl lg:text-4xl font-bold mb-6"
+                    initial={{ opacity: 0 }}
+                    animate={inView ? { opacity: 1 } : {}}
+                    transition={{ duration: 0.6, delay: 0.6 }}
+                  >
+                    <span className="gradient-text">{t('about.title')}</span>
+                  </motion.h3>
+                </motion.div>
+
+                {/* Descrizioni con animazioni staggered */}
+                <motion.div className="space-y-6">
+                  <motion.p
+                    className="text-gray-300 text-lg leading-relaxed"
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={inView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ duration: 0.6, delay: 0.8 }}
+                  >
+                    {t('about.description')}
+                  </motion.p>
+                  <motion.p
+                    className="text-gray-300 text-lg leading-relaxed"
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={inView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ duration: 0.6, delay: 1.0 }}
+                  >
+                    {t('about.bio')}
+                  </motion.p>
+                </motion.div>
+
+                {/* Badge animati */}
+                <motion.div
+                  className="flex flex-wrap gap-4 pt-6"
+                  initial={{ opacity: 0 }}
+                  animate={inView ? { opacity: 1 } : {}}
+                  transition={{ duration: 0.6, delay: 1.2 }}
+                >
+                  {[
+                    { text: 'Problem Solver', color: 'emerald' },
+                    { text: 'Team Player', color: 'cyan' },
+                    { text: 'Quick Learner', color: 'green' },
+                  ].map((badge, i) => (
+                    <motion.span
+                      key={badge.text}
+                      className={`px-6 py-3 bg-${badge.color}-500/20 text-${badge.color}-300 rounded-full text-sm font-medium border border-${badge.color}-500/30 backdrop-blur-sm`}
+                      initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                      animate={inView ? { opacity: 1, scale: 1, y: 0 } : {}}
+                      transition={{ duration: 0.4, delay: 1.4 + i * 0.2 }}
+                      whileHover={{ scale: 1.05, y: -2 }}
+                    >
+                      {badge.text}
+                    </motion.span>
+                  ))}
+                </motion.div>
               </motion.div>
             </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="space-y-6"
-          >
-            <h3 className="text-2xl font-bold text-white mb-4">
-              Hello! I'm Marco Vacchi
-            </h3>
-            <p className="text-gray-300 text-lg leading-relaxed">
-              I'm a recent graduate of the{' '}
-              <span className="text-blue-400 font-semibold">
-                Boolean web development bootcamp
-              </span>
-              , eager to apply my full-stack skills to real-world projects. I
-              thrive on building beautiful and functional web applications from
-              scratch.
-            </p>
-            <p className="text-gray-300 text-lg leading-relaxed">
-              My journey into web development began with a passion for
-              technology and problem-solving. Through intensive training and
-              hands-on projects, I've developed expertise in modern web
-              technologies and best practices.
-            </p>
-            <p className="text-gray-300 text-lg leading-relaxed">
-              I'm passionate about{' '}
-              <span className="text-purple-400 font-semibold">
-                continuous learning
-              </span>
-              , clean code, and creating user experiences that make a
-              difference. When I'm not coding, you'll find me exploring new
-              technologies or contributing to open-source projects.
-            </p>
-
-            <motion.div
-              className="flex flex-wrap gap-4 pt-4"
-              initial={{ opacity: 0 }}
-              animate={inView ? { opacity: 1 } : {}}
-              transition={{ duration: 0.6, delay: 0.6 }}
-            >
-              <span className="px-4 py-2 bg-blue-500/20 text-blue-300 rounded-full text-sm font-medium">
-                Problem Solver
-              </span>
-              <span className="px-4 py-2 bg-purple-500/20 text-purple-300 rounded-full text-sm font-medium">
-                Team Player
-              </span>
-              <span className="px-4 py-2 bg-green-500/20 text-green-300 rounded-full text-sm font-medium">
-                Quick Learner
-              </span>
-            </motion.div>
-          </motion.div>
+          </div>
         </div>
 
         {/* Skills Section */}
@@ -167,7 +271,7 @@ export function AboutSection() {
           transition={{ duration: 0.6, delay: 0.8 }}
         >
           <h3 className="text-3xl font-bold text-center mb-12 text-white">
-            Technical Skills
+            {t('about.skills')}
           </h3>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {skills.map((skill, index) => (
@@ -179,7 +283,7 @@ export function AboutSection() {
                 transition={{ duration: 0.6, delay: 1 + index * 0.1 }}
                 whileHover={{ y: -5, scale: 1.02 }}
               >
-                <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg mb-4 group-hover:scale-110 transition-transform duration-300">
+                <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-lg mb-4 group-hover:scale-110 transition-transform duration-300">
                   <skill.icon className="w-6 h-6 text-white" />
                 </div>
                 <h4 className="text-lg font-semibold text-white mb-2">
@@ -192,7 +296,7 @@ export function AboutSection() {
                 {/* Skill Level Bar */}
                 <div className="w-full bg-gray-700 rounded-full h-2">
                   <motion.div
-                    className="h-2 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full"
+                    className="h-2 bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-full"
                     initial={{ width: 0 }}
                     animate={inView ? { width: `${skill.level}%` } : {}}
                     transition={{ duration: 1, delay: 1.2 + index * 0.1 }}

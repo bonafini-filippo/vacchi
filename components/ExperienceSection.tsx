@@ -3,8 +3,10 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { GraduationCap, Award, Clock } from 'lucide-react';
+import { useT } from '@/contexts/LanguageContext';
 
 export function ExperienceSection() {
+  const t = useT();
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
@@ -13,52 +15,34 @@ export function ExperienceSection() {
   const timeline = [
     {
       id: 1,
-      date: '2024 - 2025',
-      title: 'Full-Stack Web Development Bootcamp',
+      date: t('experience.boolean.period'),
+      title: t('experience.boolean.title'),
       organization: 'Boolean',
-      type: 'education',
-      description:
-        'Intensive 700-hour program covering modern web development technologies and best practices. Specialized in React, Node.js, MongoDB, and agile development methodologies.',
-      highlights: [
-        'Built 15+ full-stack applications',
-        'Collaborated on team projects using Git',
-        'Learned industry best practices',
-        'Mastered responsive design principles',
-      ],
+      type: t('experience.education'),
+      description: t('experience.boolean.description'),
+      highlights: t('experience.boolean.skills'),
       icon: GraduationCap,
       color: 'blue',
     },
     {
       id: 2,
-      date: '2024',
-      title: 'JavaScript Fundamentals Certification',
-      organization: 'freeCodeCamp',
-      type: 'certification',
-      description:
-        'Comprehensive study of JavaScript fundamentals, ES6+ features, and DOM manipulation. Completed multiple projects demonstrating proficiency in modern JavaScript development.',
-      highlights: [
-        '300+ hours of coding practice',
-        'Built interactive web applications',
-        'Mastered asynchronous programming',
-        'Understanding of functional programming',
-      ],
+      date: t('experience.responsive.date'),
+      title: t('experience.responsive.title'),
+      organization: t('experience.responsive.issuer'),
+      type: t('experience.certifications'),
+      description: t('experience.responsive.title'),
+      highlights: t('experience.responsive.skills'),
       icon: Award,
       color: 'purple',
     },
     {
       id: 3,
-      date: '2024',
-      title: 'Personal Projects & Learning',
-      organization: 'Self-Directed',
-      type: 'project',
-      description:
-        'Dedicated time to building personal projects and expanding knowledge through online resources, documentation, and community involvement.',
-      highlights: [
-        'Contributed to open-source projects',
-        'Built portfolio of diverse applications',
-        'Active in developer communities',
-        'Continuous learning mindset',
-      ],
+      date: t('experience.javascript.date'),
+      title: t('experience.javascript.title'),
+      organization: t('experience.javascript.issuer'),
+      type: t('experience.certifications'),
+      description: t('experience.javascript.title'),
+      highlights: t('experience.javascript.skills'),
       icon: Clock,
       color: 'green',
     },
@@ -78,7 +62,7 @@ export function ExperienceSection() {
   };
 
   return (
-    <section className="py-20 px-6 bg-slate-900/50" ref={ref}>
+    <section className="py-20 px-6 bg-gray-900/70" ref={ref}>
       <div className="container mx-auto max-w-4xl">
         <motion.div
           className="text-center mb-16"
@@ -87,18 +71,18 @@ export function ExperienceSection() {
           transition={{ duration: 0.6 }}
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-6 gradient-text">
-            Experience & Education
+            {t('experience.title')}
           </h2>
           <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-            My journey in web development and continuous learning
+            {t('experience.subtitle')}
           </p>
-          <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mt-6"></div>
+          <div className="w-24 h-1 bg-gradient-to-r from-emerald-500 to-cyan-500 mx-auto mt-6"></div>
         </motion.div>
 
         {/* Timeline */}
         <div className="relative">
           {/* Timeline Line */}
-          <div className="absolute left-8 md:left-1/2 transform md:-translate-x-0.5 w-0.5 h-full bg-gradient-to-b from-blue-500 to-purple-500"></div>
+          <div className="absolute left-8 md:left-1/2 transform md:-translate-x-0.5 w-0.5 h-full bg-gradient-to-b from-emerald-500 to-cyan-500"></div>
 
           {timeline.map((item, index) => (
             <motion.div
@@ -160,7 +144,7 @@ export function ExperienceSection() {
                   </p>
 
                   <ul className="space-y-2">
-                    {item.highlights.map((highlight, idx) => (
+                    {item.highlights.map((highlight: string, idx: number) => (
                       <motion.li
                         key={idx}
                         className="flex items-center text-gray-300 text-sm"

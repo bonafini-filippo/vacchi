@@ -12,8 +12,10 @@ import {
   Linkedin,
   Twitter,
 } from 'lucide-react';
+import { useT } from '@/contexts/LanguageContext';
 
 export function ContactSection() {
+  const t = useT();
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
@@ -95,10 +97,7 @@ export function ContactSection() {
   ];
 
   return (
-    <section
-      className="py-20 px-6 bg-gradient-to-br from-slate-800 to-slate-900"
-      ref={ref}
-    >
+    <section className="py-20 px-6 bg-gray-950" ref={ref}>
       <div className="container mx-auto max-w-6xl">
         <motion.div
           className="text-center mb-16"
@@ -107,13 +106,12 @@ export function ContactSection() {
           transition={{ duration: 0.6 }}
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-6 gradient-text">
-            Let's Connect
+            {t('contact.title')}
           </h2>
           <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-            Ready to bring your ideas to life? Let's discuss how we can work
-            together to create something amazing.
+            {t('contact.subtitle')}
           </p>
-          <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mt-6"></div>
+          <div className="w-24 h-1 bg-gradient-to-r from-emerald-500 to-cyan-500 mx-auto mt-6"></div>
         </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-12">
@@ -134,7 +132,7 @@ export function ContactSection() {
                     htmlFor="name"
                     className="block text-sm font-medium text-gray-300 mb-2"
                   >
-                    Your Name
+                    {t('contact.name')}
                   </label>
                   <motion.input
                     type="text"
@@ -143,7 +141,7 @@ export function ContactSection() {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-slate-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-300"
+                    className="w-full px-4 py-3 bg-gray-900/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all duration-300"
                     placeholder="Enter your name"
                     whileFocus={{ scale: 1.02 }}
                   />
@@ -154,7 +152,7 @@ export function ContactSection() {
                     htmlFor="email"
                     className="block text-sm font-medium text-gray-300 mb-2"
                   >
-                    Your Email
+                    {t('contact.email')}
                   </label>
                   <motion.input
                     type="email"
@@ -163,7 +161,7 @@ export function ContactSection() {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-slate-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-300"
+                    className="w-full px-4 py-3 bg-gray-900/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all duration-300"
                     placeholder="Enter your email"
                     whileFocus={{ scale: 1.02 }}
                   />
@@ -183,7 +181,7 @@ export function ContactSection() {
                     onChange={handleChange}
                     required
                     rows={5}
-                    className="w-full px-4 py-3 bg-slate-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-300 resize-none"
+                    className="w-full px-4 py-3 bg-gray-900/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all duration-300 resize-none"
                     placeholder="Tell me about your project..."
                     whileFocus={{ scale: 1.02 }}
                   />
@@ -195,7 +193,7 @@ export function ContactSection() {
                   className={`w-full py-3 px-6 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center ${
                     isSubmitted
                       ? 'bg-green-600 text-white'
-                      : 'bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:shadow-lg hover:shadow-blue-500/25'
+                      : 'bg-gradient-to-r from-emerald-500 to-cyan-500 text-white hover:shadow-lg hover:shadow-emerald-500/25'
                   }`}
                   whileHover={
                     !isSubmitting && !isSubmitted ? { scale: 1.02 } : {}
@@ -215,10 +213,10 @@ export function ContactSection() {
                       }}
                     />
                   ) : isSubmitted ? (
-                    'Message Sent!'
+                    t('contact.success')
                   ) : (
                     <>
-                      Send Message
+                      {t('contact.send')}
                       <Send className="ml-2 w-4 h-4" />
                     </>
                   )}
@@ -239,8 +237,8 @@ export function ContactSection() {
                 Get in touch
               </h3>
               <p className="text-gray-400 text-lg leading-relaxed mb-8">
-                I'm always open to discussing new opportunities, interesting
-                projects, or just having a chat about technology and
+                I&apos;m always open to discussing new opportunities,
+                interesting projects, or just having a chat about technology and
                 development.
               </p>
             </div>
@@ -255,7 +253,7 @@ export function ContactSection() {
                   animate={inView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.4, delay: 0.6 + index * 0.1 }}
                 >
-                  <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300">
+                  <div className="w-12 h-12 bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-lg flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-300">
                     <info.icon className="w-5 h-5 text-white" />
                   </div>
                   <div>
@@ -263,7 +261,7 @@ export function ContactSection() {
                     {info.href ? (
                       <a
                         href={info.href}
-                        className="text-white font-medium hover:text-blue-400 transition-colors duration-200"
+                        className="text-white font-medium hover:text-emerald-400 transition-colors duration-200"
                       >
                         {info.value}
                       </a>
@@ -287,7 +285,7 @@ export function ContactSection() {
                     href={social.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`w-12 h-12 bg-slate-800/50 border border-gray-600 rounded-lg flex items-center justify-center text-gray-400 transition-all duration-300 ${social.color}`}
+                    className={`w-12 h-12 bg-gray-900/50 border border-gray-600 rounded-lg flex items-center justify-center text-gray-400 transition-all duration-300 ${social.color}`}
                     initial={{ opacity: 0, scale: 0 }}
                     animate={inView ? { opacity: 1, scale: 1 } : {}}
                     transition={{ duration: 0.4, delay: 0.8 + index * 0.1 }}

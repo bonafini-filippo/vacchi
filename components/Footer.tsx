@@ -2,8 +2,10 @@
 
 import { motion } from 'framer-motion';
 import { Heart, Github, Linkedin, Twitter, Mail } from 'lucide-react';
+import { useT } from '@/contexts/LanguageContext';
 
 export function Footer() {
+  const t = useT();
   const currentYear = new Date().getFullYear();
 
   const socialLinks = [
@@ -34,11 +36,11 @@ export function Footer() {
   ];
 
   const footerLinks = [
-    { name: 'Home', href: '#hero' },
-    { name: 'About', href: '#about' },
-    { name: 'Projects', href: '#projects' },
-    { name: 'Experience', href: '#experience' },
-    { name: 'Contact', href: '#contact' },
+    { name: t('nav.home'), href: '#hero' },
+    { name: t('nav.about'), href: '#about' },
+    { name: t('nav.projects'), href: '#projects' },
+    { name: t('nav.experience'), href: '#experience' },
+    { name: t('nav.contact'), href: '#contact' },
   ];
 
   const scrollToSection = (href: string) => {
@@ -49,7 +51,7 @@ export function Footer() {
   };
 
   return (
-    <footer className="bg-slate-900 border-t border-slate-800">
+    <footer className="bg-black border-t border-gray-800">
       <div className="container mx-auto px-6 py-12">
         <div className="grid md:grid-cols-3 gap-8 mb-8">
           {/* Brand Section */}
@@ -62,9 +64,7 @@ export function Footer() {
           >
             <h3 className="text-2xl font-bold gradient-text">Marco Vacchi</h3>
             <p className="text-gray-400 leading-relaxed">
-              Full-Stack Developer passionate about creating innovative web
-              applications and bringing ideas to life through clean, efficient
-              code.
+              {t('footer.tagline')}
             </p>
             <div className="flex items-center space-x-2 text-gray-400">
               <span>Made with</span>
@@ -93,7 +93,9 @@ export function Footer() {
             transition={{ duration: 0.6, delay: 0.1 }}
             viewport={{ once: true }}
           >
-            <h4 className="text-lg font-semibold text-white">Quick Links</h4>
+            <h4 className="text-lg font-semibold text-white">
+              {t('footer.quickLinks')}
+            </h4>
             <ul className="space-y-2">
               {footerLinks.map((link, index) => (
                 <motion.li key={link.name}>
@@ -171,7 +173,7 @@ export function Footer() {
               href={social.url}
               target="_blank"
               rel="noopener noreferrer"
-              className={`w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center text-gray-400 transition-all duration-300 ${social.color}`}
+              className={`w-10 h-10 bg-gray-900 rounded-full flex items-center justify-center text-gray-400 transition-all duration-300 ${social.color}`}
               whileHover={{ scale: 1.1, y: -2 }}
               whileTap={{ scale: 0.95 }}
               initial={{ opacity: 0, scale: 0 }}
@@ -186,16 +188,13 @@ export function Footer() {
 
         {/* Copyright */}
         <motion.div
-          className="border-t border-slate-800 pt-8 text-center"
+          className="border-t border-gray-800 pt-8 text-center"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.5 }}
           viewport={{ once: true }}
         >
-          <p className="text-gray-400 text-sm">
-            © {currentYear} Marco Vacchi. All rights reserved. Built with
-            Next.js, Tailwind CSS, and Framer Motion.
-          </p>
+          <p className="text-gray-400 text-sm">{t('footer.copyright')}</p>
           <motion.p
             className="text-gray-500 text-xs mt-2"
             initial={{ opacity: 0 }}

@@ -1,115 +1,267 @@
+/**
+ * 🎭 HERO SECTION - La prima impressione del visitatore
+ *
+ * 🎯 SCOPO: Creare una landing page accattivante che catturi l'attenzione
+ * 🎨 DESIGN: Gradiente animato, particelle fluttuanti, call-to-action
+ * 📱 RESPONSIVE: Si adatta a tutti i dispositivi
+ *
+ * 🧰 TECNOLOGIE USATE:
+ * - Framer Motion (animazioni)
+ * - Tailwind CSS (stili responsive)
+ * - Lucide React (icone)
+ * - CSS Custom Animations (particelle)
+ */
+
+// 🔧 DIRETTIVA NEXT.JS - Client Component per interazioni e animazioni
 'use client';
 
+// 📦 IMPORT DELLE LIBRERIE
+
+// 🎬 Framer Motion - Per animazioni fluide e professionali
 import { motion } from 'framer-motion';
+
+// 🎨 Icone - Per il pulsante call-to-action
 import { ArrowDown } from 'lucide-react';
-import { FloatingCube } from './FloatingCube';
+
+// ⚛️ React hooks
+import { useState, useEffect } from 'react';
+
+// 🌍 Sistema di traduzioni
+import { useT } from '@/contexts/LanguageContext';
+
+/**
+ * 🎭 COMPONENTE HERO SECTION
+ *
+ * Questo è il primo componente che l'utente vede quando visita il sito.
+ * È fondamentale per:
+ * - Fare una buona prima impressione
+ * - Comunicare chiaramente chi è Marco
+ * - Invitare l'utente a esplorare il portfolio
+ * - Mostrare le competenze tecniche attraverso il design
+ */
+// 🎯 INTERFACCIA PER LE PARTICELLE
+interface Particle {
+  id: number;
+  left: number;
+  top: number;
+  duration: number;
+  delay: number;
+}
 
 export function HeroSection() {
+  // 🌍 Hook per le traduzioni
+  const t = useT();
+
+  // ✨ State per le particelle - evita mismatch di hydration
+  const [particles, setParticles] = useState<Particle[]>([]);
+
+  // 🎯 Genera le particelle solo dopo l'hydration del client
+  useEffect(() => {
+    const generateParticles = (): Particle[] => {
+      return Array.from({ length: 50 }, (_, i) => ({
+        id: i,
+        left: Math.random() * 100,
+        top: Math.random() * 100,
+        duration: 3 + Math.random() * 2,
+        delay: Math.random() * 3,
+      }));
+    };
+
+    setParticles(generateParticles());
+  }, []);
+
+  /**
+   * 🎯 FUNZIONE DI NAVIGAZIONE
+   *
+   * Quando l'utente clicca sul CTA:
+   * 1. Trova la sezione progetti nel DOM
+   * 2. Fa scroll fino a quella sezione con animazione fluida
+   */
   const scrollToProjects = () => {
-    document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
+    // 🔍 Cerca l'elemento con ID 'projects'
+    document.getElementById('projects')?.scrollIntoView({
+      behavior: 'smooth', // Scroll animato invece di istantaneo
+    });
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Animated Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 animate-gradient-xy"></div>
+    // 🏗️ CONTAINER PRINCIPALE - Schermo intero con contenuto centrato
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+      {/*
+        🎨 CLASSI CSS SPIEGATE:
+        - relative: posizionamento relativo per elementi assoluti figli
+        - min-h-screen: altezza minima = altezza dello schermo
+        - flex items-center justify-center: centra il contenuto
+        - overflow-hidden: nasconde elementi che escono dai bordi
+      */}
 
-      {/* Floating particles */}
+      {/* 🌈 SFONDO ANIMATO - Gradiente che cambia colori */}
+      <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black animate-gradient-xy"></div>
+      {/*
+        🎨 EFFETTI SPIEGATI:
+        - absolute inset-0: copre tutto il container
+        - bg-gradient-to-br: gradiente da top-left a bottom-right
+        - from-black via-gray-900 to-black: nero → grigio scuro → nero
+        - animate-gradient-xy: animazione custom definita in globals.css
+      */}
+
+      {/* ✨ PARTICELLE FLUTTUANTI - Aggiungono vita al background */}
       <div className="absolute inset-0">
-        {[...Array(50)].map((_, i) => (
+        {/*
+          🔄 PARTICELLE GENERATE DOPO HYDRATION
+          Questo evita il mismatch di hydration tra server e client
+          Le particelle vengono create solo dopo che React ha fatto l'hydration
+        */}
+        {particles.map((particle) => (
+          // 🎬 PARTICELLA ANIMATA
           <motion.div
-            key={i}
-            className="absolute w-1 h-1 bg-blue-400 rounded-full"
+            key={particle.id} // Chiave univoca per React
+            className="absolute w-1 h-1 bg-emerald-400 rounded-full"
+            // 📍 POSIZIONE PREDEFINITA (calcolata sul client)
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
+              left: `${particle.left}%`,
+              top: `${particle.top}%`,
             }}
+            // 🎭 ANIMAZIONE FLUTTUANTE
             animate={{
-              y: [0, -30, 0],
-              opacity: [0, 1, 0],
+              y: [0, -30, 0], // Su e giù di 30px
+              opacity: [0, 1, 0], // Fade in e out
             }}
+            // ⏱️ TIMING PREDEFINITO (calcolato sul client)
             transition={{
-              duration: 3 + Math.random() * 2,
-              repeat: Infinity,
-              delay: Math.random() * 3,
+              duration: particle.duration, // 3-5 secondi
+              repeat: Infinity, // Loop infinito
+              delay: particle.delay, // Delay 0-3s
             }}
           />
         ))}
       </div>
 
-      {/* 3D Floating Cube */}
-      <FloatingCube />
-
-      {/* Main Content */}
+      {/* 📄 CONTENUTO PRINCIPALE - Il messaggio centrale */}
       <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
-        <motion.h1
-          className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6"
+        {/*
+          🎨 CLASSI LAYOUT:
+          - relative z-10: sta sopra lo sfondo
+          - text-center: testo centrato
+          - px-6: padding orizzontale
+          - max-w-4xl mx-auto: larghezza max + centrato
+        */}
+
+        {/* 👋 SALUTO */}
+        <motion.p
+          className="text-lg md:text-xl text-gray-400 mb-4"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          transition={{ duration: 0.8, delay: 0.1 }}
         >
-          <span className="gradient-text">Marco Vacchi</span>
+          {t('hero.greeting')}
+        </motion.p>
+
+        {/* 🏷️ NOME PRINCIPALE - Il titolo più importante */}
+        <motion.h1
+          className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6"
+          // 🎭 ANIMAZIONE DI ENTRATA
+          initial={{ opacity: 0, y: 30 }} // Inizia invisibile e spostato in basso
+          animate={{ opacity: 1, y: 0 }} // Diventa visibile e si posiziona
+          transition={{ duration: 0.8, delay: 0.2 }} // 0.8s di durata, inizia dopo 0.2s
+        >
+          {/* 🌈 TESTO CON GRADIENTE */}
+          <span className="gradient-text">{t('hero.name')}</span>
+          {/*
+            💡 La classe 'gradient-text' è definita in globals.css
+            Applica un gradiente colorato al testo invece del colore normale
+          */}
         </motion.h1>
 
+        {/* 💼 SOTTOTITOLO - Descrizione professionale */}
         <motion.h2
-          className="text-2xl md:text-3xl lg:text-4xl font-light mb-8 text-gray-300"
+          className="text-2xl md:text-3xl lg:text-4xl font-light mb-8 text-emerald-400"
+          // 🎭 SECONDA ANIMAZIONE - Leggermente ritardata
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
-          Full-Stack Developer with a Passion for{' '}
-          <span className="text-blue-400 font-semibold">
-            Creative Solutions
-          </span>
+          {t('hero.title')}
         </motion.h2>
 
+        {/* 📝 DESCRIZIONE - Informazioni aggiuntive */}
         <motion.p
           className="text-lg md:text-xl text-gray-400 mb-12 max-w-2xl mx-auto leading-relaxed"
+          // 🎭 TERZA ANIMAZIONE - Ancora più ritardata
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
         >
-          Recent Boolean bootcamp graduate specializing in React, Node.js, and
-          modern web technologies. Ready to bring innovative ideas to life
-          through code.
+          {t('hero.subtitle')}
         </motion.p>
 
+        {/* 🎯 CALL-TO-ACTION - Pulsante principale */}
         <motion.button
-          onClick={scrollToProjects}
-          className="group relative px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full text-white font-semibold text-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/25"
+          onClick={scrollToProjects} // Naviga ai progetti quando cliccato
+          className="group relative px-8 py-4 bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-full text-white font-semibold text-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-emerald-500/25"
+          // 🎭 QUARTA ANIMAZIONE - La più ritardata
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.8 }}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+          // 🎬 INTERAZIONI HOVER E CLICK
+          whileHover={{ scale: 1.05 }} // Si ingrandisce al hover
+          whileTap={{ scale: 0.95 }} // Si rimpicciolisce al click
         >
+          {/* 📝 CONTENUTO DEL PULSANTE */}
           <span className="relative z-10 flex items-center">
-            See My Work
+            {t('hero.cta')}
+            {/* 🔽 ICONA FRECCIA - Si anima al hover */}
             <ArrowDown className="ml-2 w-5 h-5 group-hover:animate-bounce" />
           </span>
-          <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-blue-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+
+          {/* 🌊 EFFETTO HOVER - Sfondo che si espande */}
+          <div className="absolute inset-0 bg-gradient-to-r from-cyan-600 to-emerald-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+          {/*
+            🎨 COME FUNZIONA:
+            - absolute inset-0: copre tutto il pulsante
+            - scale-x-0: inizia con larghezza 0 (invisibile)
+            - group-hover:scale-x-100: al hover del gruppo diventa larghezza piena
+            - origin-left: l'espansione parte da sinistra
+          */}
         </motion.button>
       </div>
-
-      {/* Scroll Indicator */}
-      <motion.div
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.5, duration: 0.5 }}
-      >
-        <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-          className="w-6 h-10 border-2 border-gray-400 rounded-full flex justify-center"
-        >
-          <motion.div
-            animate={{ y: [0, 12, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
-            className="w-1 h-3 bg-gray-400 rounded-full mt-2"
-          />
-        </motion.div>
-      </motion.div>
     </section>
   );
 }
+
+/**
+ * 🎓 CONCETTI AVANZATI NEXT.JS UTILIZZATI:
+ *
+ * 1. 🎬 FRAMER MOTION:
+ *    - Animazioni staggered (ritardate in sequenza)
+ *    - Interazioni whileHover e whileTap
+ *    - Controllo preciso di timing e easing
+ *
+ * 2. 🎨 TAILWIND CSS:
+ *    - Responsive breakpoints (md:, lg:)
+ *    - Utility classes per layout complessi
+ *    - Pseudo-classes (:hover, :group-hover)
+ *    - Custom animations via CSS
+ *
+ * 3. ⚛️ REACT PATTERNS:
+ *    - Functional components moderni
+ *    - Event handlers per interazioni
+ *    - Composizione di componenti
+ *
+ * 4. 🌐 WEB STANDARDS:
+ *    - HTML semantico con <section>
+ *    - Accessibilità con descrizioni appropriate
+ *    - Performance ottimizzate
+ *
+ * 5. 🎯 UX DESIGN:
+ *    - Progressive disclosure (informazioni graduate)
+ *    - Call-to-action prominente
+ *    - Feedback visivo per ogni interazione
+ *    - Hierarchy visiva chiara
+ *
+ * 6. 📱 RESPONSIVE DESIGN:
+ *    - Mobile-first approach
+ *    - Breakpoint strategici
+ *    - Typography scale fluida
+ *    - Touch-friendly interactions
+ */

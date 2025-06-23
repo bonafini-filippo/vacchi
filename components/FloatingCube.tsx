@@ -18,10 +18,10 @@ function RotatingCube() {
     <mesh ref={meshRef}>
       <boxGeometry args={[1, 1, 1]} />
       <meshStandardMaterial
-        color="#8b5cf6"
+        color="#00d4aa"
         transparent
         opacity={0.8}
-        emissive="#3b82f6"
+        emissive="#00c4f4"
         emissiveIntensity={0.2}
       />
     </mesh>

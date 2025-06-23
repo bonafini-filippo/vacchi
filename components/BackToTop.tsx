@@ -3,8 +3,10 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronUp } from 'lucide-react';
+import { useT } from '@/contexts/LanguageContext';
 
 export function BackToTop() {
+  const t = useT();
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -31,7 +33,7 @@ export function BackToTop() {
     <AnimatePresence>
       {isVisible && (
         <motion.button
-          className="fixed bottom-8 right-8 z-30 p-3 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full text-white shadow-lg hover:shadow-xl transition-shadow duration-300"
+          className="fixed bottom-24 right-8 z-30 p-3 bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-full text-white shadow-lg hover:shadow-xl transition-shadow duration-300 group"
           onClick={scrollToTop}
           initial={{ opacity: 0, scale: 0 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -39,6 +41,7 @@ export function BackToTop() {
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
           transition={{ duration: 0.3 }}
+          title={t('common.backToTop')}
         >
           <ChevronUp size={24} />
         </motion.button>
